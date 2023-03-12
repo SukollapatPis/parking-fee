@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Parking Fee Calculator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<style>
+		/* Add some basic styling */
+		body {
+			font-family: 'Kanit', sans-serif;
+			font-size: 16px;
+			line-height: 1.5;
+			padding: 20px;
+		}
+
+		label {
+			display: block;
+			margin-bottom: 10px;
+		}
+
+		input[type="number"] {
+			padding: 5px;
+			border-radius: 3px;
+			border: 1px solid #ccc;
+			font-size: 16px;
+			width: 100%;
+			box-sizing: border-box;
+		}
+
+		button[type="submit"] {
+			padding: 10px 20px;
+			background-color: #007bff;
+			color: #fff;
+			border: none;
+			border-radius: 3px;
+			cursor: pointer;
+		}
+
+		button[type="submit"]:hover {
+			background-color: #0062cc;
+		}
+
+		.result {
+			margin-top: 20px;
+			padding: 10px;
+			background-color: #f7f7f7;
+			border-radius: 3px;
+			border: 1px solid #ccc;
+		}
+	</style>
+</head>
+<body>
+	<h1>Parking Fee Calculator</h1>
+    <p>The parking fee is 30 baht per hour, the first hour is free.</p>
+    <p>If the remainder is rounded up, for example, 2 hours 26 minutes is counted as 3 hours.</p>
+	<form id="parking-form">
+		<label for="hour-input">Hour:</label>
+		<input type="number" id="hour-input" name="hour" min="0" required>
+
+		<label for="minute-input">Minute:</label>
+		<input type="number" id="minute-input" name="minute" min="0" max="59" required>
+
+		<button type="submit">Calculate</button>
+	</form>
+
+	<div class="result" id="result-container"></div>
+
+	<script>
+		// Get the form and result container elements
+		const form = document.getElementById('parking-form');
+		const resultContainer = document.getElementById('result-container');
+
+		// Add an event listener to the form submit event
+		form.addEventListener('submit', function(event) {
+			event.preventDefault();
+
+			// Get the hour and minute values from the form
+			const hourInput = document.getElementById('hour-input');
+			const minuteInput = document.getElementById('minute-input');
+			const hour = parseInt(hourInput.value);
+			const minute = parseInt(minuteInput.value);
+
+			// Validate the input values
+			if (isNaN(hour) || isNaN(minute) || hour < 0 || minute < 0 || minute > 59) {
+				alert('Please enter a valid hour and minute value.');
+				return;
+			}
+
+			// Calculate the parking fee
+			let pay = 0;
+			if (hour > 0 || minute > 0) {
+				pay = Math.ceil((hour + minute / 60 - 1) * 30);
+			}
+
+			// Display the result
+			resultContainer.innerHTML = `You have to pay: ${pay} baht`;
+		});
+	</script>
+</body>
+</html>
